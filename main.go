@@ -7,6 +7,7 @@ import (
 	. "github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -27,40 +28,41 @@ func initRoutes() *Router {
 	router.HandleFunc("/api", index).Methods("GET")
 	router.HandleFunc("/api/location/{long}/{lat}", location).Methods("GET")
 	return router
-
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	j, _ := json.Marshal("{'data': 'none'}")
-	w.Write(j)
 }
 
 func location(w http.ResponseWriter, r *http.Request) {
 	vars := Vars(r)
-	//validate that we have a user id from the request
+	var lat, _ = strconv.Atoi(vars["lat"])
+	var long, _ = strconv.Atoi(vars["long"])
 	var found = true
-	var message = ""
+	var message = `"data": ""`
 	var place = ""
+	var code int
 
-	if vars["long"] == "" {
+	if long == 0 {
 		message = "Can't retrieve location. Longitude is missing"
 		found = false
 	}
-
-	if vars["lat"] == "" {
+	if lat == 0 {
 		message = "Can't retrieve location. Latitude is missing"
 		found = false
 	}
-
 	if found == true {
-		place = GetLocation(vars["long"], vars["lat"])
+		place = GetLocation(lat, long)
 		message = fmt.Sprintf(`{"data": {"place": %s}}`, place)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(message)
+	err := json.NewEncoder(w).Encode(message)
+	if err != nil {
+		log.Printf("An error occurred with location handler %v", err.Error())
+		code = 500
+	}
 
-	//if user id is valid, make call to user service looking for user entity
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write([]byte(message))
 }
