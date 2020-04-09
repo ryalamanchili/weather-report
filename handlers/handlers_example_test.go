@@ -1,52 +1,28 @@
-// Test to show how to make an HTTP request to the location endpoint.
+// Simple test to show how to write a basic Location request
 package handlers_test
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/derekkenney/doximity/handlers"
+	"log"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 )
 
-const checkMark = "\u2713"
-const ballotX = "\u2717"
-
-//TestLocation testing the location internal endpoint
-func TestLocation(t *testing.T) {
-	t.Log("Given the need to test the Location endpoint.")
-	{
+func ExampleLocation() {
 		router := handlers.Routes()
 		rw := httptest.NewRecorder()
-
-		req, err := http.NewRequest("GET", "/location/101/101", nil)
-		if err != nil {
-			t.Fatal("\tShould be able to create a request", ballotX, err)
-		}
-		t.Log("Should be able to create a request", checkMark)
-
-		//Test that we get a status code 200 for a correct request
+		req, _ := http.NewRequest("GET", "/location/101/101", nil)
 		router.ServeHTTP(rw, req)
 
-		if rw.Code != 200 {
-			t.Fatal("\tShould receive a \"200\"", ballotX, rw.Code)
-		}
-		t.Log("\tShould receive a \"200\"", checkMark)
+		data := handlers.Data{}
+		// Decode the JSON location from response
 
-		// Create a new request object with missing URL arguments
+		if err := json.NewDecoder(rw.Body).Decode(&data); err != nil {
+			log.Println("Error:", err)
 		}
-}
-func TestMissingCoordinates(t *testing.T) {
-		t.Log("Given the need to test handling missing coordinates.")
-		{
-			router := handlers.Routes()
-			rw := httptest.NewRecorder()
-
-		req, _ := http.NewRequest("GET", "/location", nil)
-		router.ServeHTTP(rw, req)
-
-		if rw.Code != 404 {
-			t.Fatal("\tShould receive a \"404\" when missing coordinates", ballotX, rw.Code)
-		}
-		t.Log("Should receive a \"404\" when missing coordinates", checkMark)
-	}
+		fmt.Println(data)
+		//Output:
+		//{Kalamazoo 200}
 }

@@ -1,8 +1,9 @@
+// Package handlers provides functions for dispatching HTTP request paths to handler functions.
 package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+
 	. "github.com/derekkenney/location"
 	. "github.com/gorilla/mux"
 	"log"
@@ -10,18 +11,25 @@ import (
 	"strconv"
 )
 
-var (
-	message = `"data": ""`
-	code    int
-)
+// Data structure for Encoding Location values to JSON
+type Data struct {
+	Message string `json: "message"`
+	Code    int `json: "code"`
+}
 
+// Routes creates a mux router that maps endpoints like /location to http.HandlerFuncs
 func Routes() *Router {
 	log.Println("InitRoutes called")
 	r := NewRouter()
 	r.HandleFunc("/location/{lat}/{long}", Location)
 	return r
 }
+//Function Location is the http.HandlerFunc for the request path /location/{long}/{lat}. It expects coordinate arguments.
+//If a location is found by using longitude and latitude, a JSON object is returned with location details.
+//Also a 200 status code is returned. If the request is missing coordinates, or no location is found, the function
+//returns a 404, and empty JSON object.
 func Location(w http.ResponseWriter, r *http.Request) {
+	data := Data{}
 	vars := Vars(r)
 	var lat, _ = strconv.Atoi(vars["lat"])
 	var long, _ = strconv.Atoi(vars["long"])
@@ -30,23 +38,24 @@ func Location(w http.ResponseWriter, r *http.Request) {
 
 	if long == 0 {
 		log.Println("Can't retrieve location. The longitude argument is missing")
-		message = fmt.Sprintf(`{"data": {"message": "Can't retrieve location. Longitude is missing"}}`)
+		data.Message = "Can't retrieve location. Longitude is missing"
 		found = false
-		code = 404
+		data.Code = 404
 	}
 	if lat == 0 {
 		log.Println("Can't retrieve location. The latitude argument is missing`")
-		message = fmt.Sprintf(`{"data": {"message": "Can't retrieve location. Latitude is missing"}}`)
+		data.Message = "Can't retrieve location. Latitude is missing"
 		found = false
-		code = 404
+		data.Code = 404
 	}
 	if found == true {
 		log.Println("Retrieved location for coordinates")
 		place = GetLocation(lat, long)
-		message = fmt.Sprintf(`{"data": {"place": %s}}`, place)
-		code = 200
+		log.Print(place)
+		data.Message = "Kalamazoo"
+		data.Code = 200
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(code)
-	_ = json.NewEncoder(w).Encode(message)
+	w.WriteHeader(data.Code)
+	_ = json.NewEncoder(w).Encode(data)
 }
