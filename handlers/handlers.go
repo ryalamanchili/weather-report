@@ -21,7 +21,7 @@ type Data struct {
 func Routes() *Router {
 	log.Println("InitRoutes called")
 	r := NewRouter()
-	r.HandleFunc("/location/{lat}/{long}", Location)
+	r.HandleFunc("/location/longitude/{longitude}/latitude/{latitude}", Location)
 	return r
 }
 //Function Location is the http.HandlerFunc for the request path /location/{long}/{lat}. It expects coordinate arguments.
@@ -31,8 +31,8 @@ func Routes() *Router {
 func Location(w http.ResponseWriter, r *http.Request) {
 	data := Data{}
 	vars := Vars(r)
-	var lat, _ = strconv.Atoi(vars["lat"])
-	var long, _ = strconv.Atoi(vars["long"])
+	var lat, _ = strconv.Atoi(vars["latitude"])
+	var long, _ = strconv.Atoi(vars["longitude"])
 	var found = true
 	var place = ""
 

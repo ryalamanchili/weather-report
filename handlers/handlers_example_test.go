@@ -13,7 +13,7 @@ import (
 func ExampleLocation() {
 		router := handlers.Routes()
 		rw := httptest.NewRecorder()
-		req, _ := http.NewRequest("GET", "/location/101/101", nil)
+		req, _ := http.NewRequest("GET", "/location/longitude/103/latitude/30", nil)
 		router.ServeHTTP(rw, req)
 
 		data := handlers.Data{}

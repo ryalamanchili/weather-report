@@ -18,7 +18,7 @@ func TestLocation(t *testing.T) {
 		router := handlers.Routes()
 		rw := httptest.NewRecorder()
 
-		req, err := http.NewRequest("GET", "/location/101/101", nil)
+		req, err := http.NewRequest("GET", "/location/longitude/103/latitude/30", nil)
 		if err != nil {
 			t.Fatal("\tShould be able to create a request", ballotX, err)
 		}
@@ -41,7 +41,7 @@ func TestMissingCoordinates(t *testing.T) {
 			router := handlers.Routes()
 			rw := httptest.NewRecorder()
 
-		req, _ := http.NewRequest("GET", "/location", nil)
+		req, _ := http.NewRequest("GET", "/location/longitude/0/latitude/0", nil)
 		router.ServeHTTP(rw, req)
 
 		if rw.Code != 404 {
