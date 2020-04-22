@@ -4,7 +4,7 @@ package handlers
 import (
 	"encoding/json"
 
-	. "github.com/derekkenney/doximity/location"
+	. "github.com/derekkenney/weather-report/location"
 	. "github.com/gorilla/mux"
 	"log"
 	"net/http"

@@ -4,7 +4,7 @@ package handlers_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/derekkenney/doximity/handlers"
+	"github.com/derekkenney/weather-report/handlers"
 	"log"
 	"net/http"
 	"net/http/httptest"

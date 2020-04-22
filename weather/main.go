@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/derekkenney/doximity/handlers"
+	"github.com/derekkenney/weather-report/handlers"
 	"log"
 	"net/http"
 	"time"
 )
 
-// main is the entry point for the weather application
+// main is the entry point for the weather-report application
 func main() {
 	server := &http.Server{
 		Addr:         ":8080",

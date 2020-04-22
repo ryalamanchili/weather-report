@@ -2,7 +2,7 @@
 package handlers_test
 
 import (
-	"github.com/derekkenney/doximity/handlers"
+	"github.com/derekkenney/weather-report/handlers"
 	"net/http"
 	"net/http/httptest"
 	"testing"
