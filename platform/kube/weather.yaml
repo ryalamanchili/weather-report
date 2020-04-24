@@ -20,7 +20,7 @@ metadata:
     service: weather
 spec:
   ports:
-    - port: 9090
+    - port: 8081
       name: http
   selector:
     app: weather
@@ -35,7 +35,7 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather-v1
+  name: weather
   labels:
     app: weather
     version: v1
@@ -54,8 +54,8 @@ spec:
       serviceAccountName: weather-report
       containers:
         - name: weather
-          image: docker.io/derekkenneysrt8/weather-info-v1:1.0.0
+          image: localhost:32000/weatherinfo:registry
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 9090
+            - containerPort: 8081
 

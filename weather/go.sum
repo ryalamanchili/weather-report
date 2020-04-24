@@ -1,6 +1,0 @@
-github.com/derekkenney/doximity v0.0.0-20200410161818-3f026694e9b5 h1:CknkmXWniasU13pVkr2fowjyEzvrXv5ZL+Pvnx1Oa1k=
-github.com/derekkenney/doximity v0.0.0-20200410161818-3f026694e9b5/go.mod h1:2XqLkIJWah8uLssWfDpkLGHgNjR9AI9xfLOKcboYC9M=
-github.com/derekkenney/weather-report v0.0.0-20200410161818-3f026694e9b5 h1:nRAGX/Wp9K6xrcHvJXV4p43GI+mK+pf1dzxQXIYP4TQ=
-github.com/derekkenney/weather-report v0.0.0-20200410161818-3f026694e9b5/go.mod h1:pcj8WoTpSQx+C/Vojay3CGBnAkeKzTleNg8FzJyboQE=
-github.com/gorilla/mux v1.7.4 h1:VuZ8uybHlWmqV03+zRzdwKL4tUnIp1MAQtp1mIFE1bc=
-github.com/gorilla/mux v1.7.4/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
