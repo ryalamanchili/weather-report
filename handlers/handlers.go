@@ -38,26 +38,28 @@ func Location(w http.ResponseWriter, r *http.Request) {
 	lat, err := strconv.Atoi(vars["latitude"])
 	if err != nil {
 		found = false
-		fmt.Printf("\n STACK TRACE\n *****************************")
-		fmt.Printf("%+v", err)
-		http.Error(w, "An error occurred getting the location of the latitude.", 500)
+		log.Printf("\n STACK TRACE\n *****************************")
+		log.Printf("%+v\n", err)
+		data.Message = "An error occurred getting the location of the latitude."
+		data.Code = 500
 	}
 
 	long, err := strconv.Atoi(vars["longitude"])
 	if err != nil {
 		found = false
-		fmt.Printf("\n STACK TRACE\n *****************************")
-		fmt.Printf("%+v", err)
-		http.Error(w, "An error occurred getting the location of the longitude.", 500)
+		log.Printf("\n STACK TRACE\n *****************************")
+		log.Printf("%+v\n", err)
+		data.Message = "An error occurred getting the location of the longitude."
+		data.Code = 500
 	}
 
-	if long == 0 {
+	if long == 0 && err == nil {
 		log.Println("Can't retrieve location. The longitude argument is missing")
 		data.Message = "Can't retrieve location. Longitude is missing"
 		found = false
 		data.Code = 404
 	}
-	if lat == 0 {
+	if lat == 0 && err == nil {
 		log.Println("Can't retrieve location. The latitude argument is missing`")
 		data.Message = "Can't retrieve location. Latitude is missing"
 		found = false
@@ -73,7 +75,7 @@ func Location(w http.ResponseWriter, r *http.Request) {
 
 	if j, err := json.Marshal(data); err != nil {
 		log.Printf("\n STACK TRACE\n *******************************")
-		fmt.Printf("%+v", err)
+		fmt.Printf("%+v\n", err)
 		http.Error(w, "An error occurred parsing the JSON result of the location", 500)
 		return
 	} else {
