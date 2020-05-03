@@ -2,10 +2,11 @@
 package handlers_test
 
 import (
-	"github.com/derekkenney/weather-report/handlers"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/derekkenney/weather-report/handlers"
 )
 
 const checkMark = "\u2713"
@@ -33,13 +34,13 @@ func TestLocation(t *testing.T) {
 		t.Log("\tShould receive a \"200\"", checkMark)
 
 		// Create a new request object with missing URL arguments
-		}
+	}
 }
 func TestMissingCoordinates(t *testing.T) {
-		t.Log("Given the need to test handling missing coordinates.")
-		{
-			router := handlers.Routes()
-			rw := httptest.NewRecorder()
+	t.Log("Given the need to test handling missing coordinates.")
+	{
+		router := handlers.Routes()
+		rw := httptest.NewRecorder()
 
 		req, _ := http.NewRequest("GET", "/location/longitude/0/latitude/0", nil)
 		router.ServeHTTP(rw, req)
