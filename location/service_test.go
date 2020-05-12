@@ -1,2 +1,0 @@
-package location_test
-

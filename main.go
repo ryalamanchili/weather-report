@@ -2,20 +2,18 @@ package main
 
 import (
 	"log"
-	"net/http"
-	"time"
 
-	"github.com/derekkenney/weather-report/handlers"
+	"github.com/derekkenney/weather-report/app"
 )
 
 // main is the entry point for the weather-report application
 func main() {
-	server := &http.Server{
-		Addr:         ":8080",
-		Handler:      handlers.Routes(),
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 5 * time.Second,
+	log.Println("Main() called")
+	err := app.StartApp()
+
+	if err != nil {
+		log.Printf("An error occurred starting the HTTP server ...%v", err)
+		return
 	}
-	log.Println("HTTP server has started. Listening on :8080")
-	log.Fatal(server.ListenAndServe())
+
 }
