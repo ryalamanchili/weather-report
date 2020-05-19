@@ -1,6 +1,7 @@
 package app
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -12,8 +13,8 @@ import (
 // using asymetric RSA keys
 // location of the files used for signing and verification
 const (
-	privateKeyPath = "../configs/app.rsa"
-	publicKeyPath  = "../confgis/app.rsa.pub"
+	privateKeyPath = "./configs/app.rsa"
+	publicKeyPath  = "./configs/app.rsa.pub"
 )
 
 var (
@@ -21,6 +22,8 @@ var (
 )
 
 func StartApp() error {
+
+	initKeys()
 
 	log.Println("StartApp()")
 	server := &http.Server{
@@ -40,6 +43,22 @@ func StartApp() error {
 func initRoutes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/weather/location/{location/}", controllers.GetLocation).Methods("GET")
-	router.HandleFunc("/user/authenticate", controllers.AuthenticateUser).Methods("POST")
+	router.HandleFunc("/login", controllers.Login).Methods("POST")
 	return router
+}
+
+// Init the RSA keys before we start using the handlers
+func initKeys() {
+	var err error
+	signKey, err = ioutil.ReadFile(privateKeyPath)
+	if err != nil {
+		log.Printf("Error reading private key %v", err)
+		return
+	}
+
+	verifyKey, err = ioutil.ReadFile(publicKeyPath)
+	if err != nil {
+		log.Printf("Error reading public key %v", err)
+		return
+	}
 }
