@@ -9,6 +9,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// using asymetric RSA keys
+// location of the files used for signing and verification
+const (
+	privateKeyPath = "../configs/app.rsa"
+	publicKeyPath  = "../confgis/app.rsa.pub"
+)
+
+var (
+	verifyKey, signKey []byte
+)
+
 func StartApp() error {
 
 	log.Println("StartApp()")
@@ -29,5 +40,6 @@ func StartApp() error {
 func initRoutes() *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/weather/location/{location/}", controllers.GetLocation).Methods("GET")
+	router.HandleFunc("/user/authenticate", controllers.AuthenticateUser).Methods("POST")
 	return router
 }
