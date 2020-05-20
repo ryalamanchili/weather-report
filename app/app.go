@@ -42,8 +42,8 @@ func StartApp() error {
 
 func initRoutes() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/weather/location/{location/}", controllers.GetLocation).Methods("GET")
-	router.HandleFunc("/login", controllers.Login).Methods("POST")
+	router.HandleFunc("user/register", controllers.Register).Methods("POST")
+	router.HandleFunc("user/login", controllers.Login).Methods("POST")
 	return router
 }
 
