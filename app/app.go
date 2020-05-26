@@ -13,7 +13,7 @@ var (
 	err error
 )
 
-func StartApp() error {
+func StartApp() {
 	log.Println("StartApp()")
 	server := &http.Server{
 		Addr:         ":8080",
@@ -21,17 +21,14 @@ func StartApp() error {
 		ReadTimeout:  2 * time.Second,
 		WriteTimeout: 2 * time.Second,
 	}
-	err := server.ListenAndServe()
-	if err != nil {
-		return err
-	}
 	log.Println("HTTP server is listening ...")
-	return nil
+	log.Fatal(server.ListenAndServe())
 }
 
 func initRoutes() *mux.Router {
+	log.Println("initRoutes")
 	router := mux.NewRouter()
 	//router.HandleFunc("user/register", controllers.Register).Methods("POST")
-	router.HandleFunc("user/login", controllers.Login).Methods("POST")
+	router.HandleFunc("/user/login", controllers.Login).Methods("POST")
 	return router
 }
