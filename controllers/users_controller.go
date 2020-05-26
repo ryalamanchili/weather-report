@@ -16,8 +16,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Error in request body %v", err)
 		return
 	}
+
+	// create a service class, and pass any DB client dependencies to the constructor
 }
 
-func validateUserCredentials(user *User) {
+func validateUserCredentials(user *domain.User) {
 	// lookup the username from DB
+
 }

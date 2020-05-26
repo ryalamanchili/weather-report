@@ -17,7 +17,7 @@ import (
 const (
 	privateKeyPath = "./common/app.rsa"
 	publicKeyPath  = "./common/app.rsa.pub"
-)
+I c)
 
 var (
 	AppConfig          appConfig
