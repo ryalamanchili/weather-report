@@ -1,5 +1,5 @@
 # This first stage is defined as build_base, and referenced by second build
-FROM golang:1.14.1-alpine
+FROM golang:1.14.1-alpine as build_base
 
 RUN apk update && apk add --no-cache git gcc \
 && rm -rf /var/cache/apk/*
@@ -13,10 +13,14 @@ RUN GO111MODULE=on
 ADD . /weather
 
 # Build
-RUN CGO_ENABLED=0 go build -o /weather
+RUN CGO_ENABLED=0 go build -o /go/bin/weather .
 
-EXPOSE 8081
+# Final stage
+FROM alpine
 
-# Run the binary program produced by the build step
-CMD ["./weather"]
+COPY --from=build_base /go/bin/weather .
+
+ENTRYPOINT ["./weather"]
+
+EXPOSE 8080
 

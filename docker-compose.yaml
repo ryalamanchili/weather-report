@@ -1,0 +1,20 @@
+version: "3"
+services:
+  weather:
+    image: weather-report:1.0.0
+    environment: 
+        - MONGODB_HOST=mongodb://localhost:27017
+        - DB=weather
+        - DB_USER=mongo
+        - DB_PASSWORD=pwd1
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: pwd1
