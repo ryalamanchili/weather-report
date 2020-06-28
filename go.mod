@@ -3,7 +3,7 @@ module github.com/derekkenney/weather-report
 go 1.14
 
 require (
+	github.com/ardanlabs/service v0.0.0-20200627163734-0589feece1f2
 	github.com/gorilla/mux v1.7.4
-	go.mongodb.org/mongo-driver v1.3.4
-	honnef.co/go/tools v0.0.1-2020.1.4 // indirect
+	github.com/pkg/errors v0.9.1
 )
