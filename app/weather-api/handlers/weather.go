@@ -38,5 +38,37 @@ func (wh *weatherHandler) get(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, msg, 500)
 		return
 	}
+}
 
+func (wh *weatherHandler) create(w http.ResponseWriter, r *http.Request) {
+	// Read the request body. Close the body
+	ctx, span := global.Tracer("service").Start(r.Context(), "handlers.weather.get")
+	defer span.End()
+
+	var newWeather weather.Weather
+	err := json.NewDecoder(r.Body).Decode(&newWeather)
+
+	if err != nil {
+		msg = fmt.Sprintf("Failed to add weather condition %v\n", err)
+		http.Error(w, msg, 500)
+		return
+	}
+
+	newWeather, err = weather.Create(ctx, wh.db, newWeather, time.Now())
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	// Encode the weather as JSON to return
+	j, err := json.Marshal(newWeather)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write(j)
 }

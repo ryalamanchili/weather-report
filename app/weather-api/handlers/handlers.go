@@ -18,6 +18,6 @@ func API(log *log.Logger, shutdown chan os.Signal, db *mongo.Client) *mux.Router
 
 	router := mux.NewRouter()
 	router.HandleFunc("/v1/weather/{location}", w.get).Methods("GET")
-
+	router.HandleFunc("/v1/weather", w.create).Methods("POST")
 	return router
 }
