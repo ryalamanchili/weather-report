@@ -32,7 +32,7 @@ var _ = Describe("Weather", func() {
 			Description: "Sunny and mild",
 			Location: weather.Location{
 				ID:   locationId,
-				Name: "Austin, TX",
+				Name: "Chicago, IL",
 			},
 			DateCreated: time.Now(),
 		}
@@ -78,6 +78,21 @@ var _ = Describe("Weather", func() {
 			It("should return an error if location id is missing", func() {
 				w.Location.ID = ""
 				err := w.CreateReport(context.TODO(), db)
+				Ω(err).Should(HaveOccurred())
+			})
+		})
+	})
+	Describe("Getting weather for a location", func() {
+		Context("By location name", func() {
+			It("should return a weather report for Chicago, IL", func() {
+				locationName := "Chicago, IL"
+				err := w.GetWeatherForLocation(context.TODO(), db, locationName)
+				Expect(w).ToNot(BeNil())
+				Expect(err).To(BeNil())
+			})
+			It("should return an error for missing location name", func() {
+				locationName := ""
+				err := w.GetWeatherForLocation(context.TODO(), db, locationName)
 				Ω(err).Should(HaveOccurred())
 			})
 		})
