@@ -1,0 +1,23 @@
+[
+    {
+      
+      "temperature": 67.0,
+      "description": "Sunny and mild",
+      "location": {
+        "location_id": "5f04bfed5b8984d0b674dd69",
+        "location_name": "Austin, TX"
+      },
+      "date_created": "2020-07-06T18:33:11",
+      "date_updated": "2020-07-07T18:33:11"
+    },
+    {
+      "temperature": 20.0,
+      "description": "Freezing cold",
+      "location": {
+        "location_id": "5f04bfed5b8984d0b674dd70",
+        "location_name": "Boston, MA"
+      }, 
+      "date_created": "2020-07-01T18:33:11",
+      "date_updated": "2020-07-02T18:33:11"
+    }
+  ]
